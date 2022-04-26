@@ -1,0 +1,329 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <base target="_top">
+        <style>
+	        select {
+            padding:8px;
+            height: 40px;
+            width: 100px;
+            border: 1px solid #ccc;
+            box-shadow: 1px 1px 1px #999;
+            max-width: 100%;
+            line-height: 1.5;
+            border-radius: 5px;
+		    }
+            label, textarea, p{
+                font-size: .8rem;
+                letter-spacing: 0;
+            }
+        
+            a, a:hover {
+                font-size: 14px;
+            }
+            a:hover {
+                color:#347d34;
+            }
+            input {
+             width: 400px;
+            }
+            textarea, input,.b1{
+                padding: 9px;
+                max-width: 100%;
+                line-height: 1.5;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                box-shadow: 1px 1px 1px #999;
+            }
+	         .b1:hover{
+            background-color:#347d34; 
+            color:white;
+            font-weight:bold;
+            
+            }
+            label{
+                display: block;
+                margin-bottom: 8px;
+            }
+            .tablink {
+            background-color: white;
+            color: black;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 8px 8px;
+            font-size: 14px;
+            width: 15%;
+            max-width: 100%;
+            line-height: 1.5;
+            border-radius: 5px;
+           
+            }
+
+            .tablink:hover {
+            background-color: #777;
+            }
+
+            /* Style the tab content (and add height:100% for full page content) */
+            .tabcontent {
+            color: black;
+            display: none;
+            padding: 30px 20px;
+            height: 100%;
+            }
+
+            #Home {background-color: white;}
+            #News {background-color: white;}
+            #Contact {background-color: white;}
+            #About {background-color: white;}
+
+            * {
+            box-sizing: border-box;
+            }
+
+            /* Create two equal columns that floats next to each other */
+            .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+            height: 300px; /* Should be removed. Only for demonstration */
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+            content: "";
+            display: table;
+            clear: both;
+            }
+
+            .separator {
+            float: left;
+            position: relative;
+            width: .2em;
+            margin: 0 -0.5em -3000px;
+            padding-bottom: 450px;
+            background: #777
+            }
+            ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 400px;
+            background-color: #ccc;
+            word-wrap: break-word;
+            }
+
+            li a {
+            display: block;
+            color: #000;
+            padding: 5px 18px;
+            text-decoration: none;
+            word-wrap: break-word;
+            }
+
+            /* Change the link color on hover */
+            li a:hover {
+            background-color: #ccc;
+            max-width: 100%;
+            color:#347d34;
+            word-wrap: break-word;
+            }
+            em,i {
+            font-size: 12px;
+            }
+
+        </style>
+        <script>
+        function get_command(){
+         var api_choice = document.getElementById("get_choice").value;
+         var token_link = document.getElementById("token").value;
+         var id_link = document.getElementById("link").value;
+         var header_link = document.getElementById("http_header").value;
+         var username_link = document.getElementById("username_header").value;
+         var password_link = document.getElementById("password_header").value;
+         var body = document.getElementById("p_body").value;
+         if (api_choice === "GET"){
+          google.script.run.withFailureHandler(get_command_onFailure).withSuccessHandler(get_command_handler).get_command_code(id_link, token_link, header_link, username_link, password_link);
+         } 
+         else if (api_choice === "POST"){
+          google.script.run.withFailureHandler(post_command_onFailure).withSuccessHandler(post_command_handler).post_command_code(id_link, token_link, header_link, username_link, password_link,body);
+         
+         }
+         else if (api_choice === "DELETE"){
+          google.script.run.withFailureHandler(delete_command_onFailure).withSuccessHandler(delete_command_handler).delete_command_code(id_link, token_link, header_link, username_link, password_link,body);
+         
+         }
+         else {
+          alert("Method not available yet...");
+         }
+        }
+        
+        function delete_command_handler(get_data){
+         try {
+           document.getElementById("API_data").value = get_data;
+         }
+         catch (e) {
+          document.getElementById("API_data").value = e;  
+         }
+        }
+        
+        function delete_command_onFailure() {
+        document.getElementById("API_data").value = "{\n Invalid Request \n}";
+        }
+        
+        function post_command_handler(get_data){
+         try {
+           document.getElementById("API_data").value = get_data;
+         }
+         catch (e) {
+          document.getElementById("API_data").value = e;  
+         }
+        }
+        
+        function post_command_onFailure() {
+        document.getElementById("API_data").value = "{\n Invalid Request \n}";
+        }
+        
+        function get_command_handler(get_data){
+         try {
+           document.getElementById("API_data").value = get_data;
+         }
+         catch (e) {
+          document.getElementById("API_data").value = e;  
+         }
+        }
+        
+        function get_command_onFailure() {
+        document.getElementById("API_data").value = "{\n Invalid Request \n}";
+        }
+        </script>
+    </head>
+    <body>
+        <h2>JSONAPI Access Project</h2>
+        <p><em>An API tool for everyone...</em></p>
+        <div class="row">
+        <div class="column" style="background-color:#ffff;">
+           <select name="get_choice" id="get_choice" onclick="">
+                <option value="GET" selected>GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+            </select>
+            <input type="text" id="link" placeholder="Link"/>
+            <button class="b b1" onclick="get_command(); createNewElement()">SEND</button>
+            <br/><br/>
+            <button class="tablink" onclick="openPage('one', this, 'green')"  id="defaultOpen">Activity</button>
+            <button class="tablink" onclick="openPage('two', this, 'green')">Auth</button>
+            <button class="tablink" onclick="openPage('three', this, 'green')" >Headers</button>
+            <button class="tablink" onclick="openPage('four', this, 'green')">Body</button>
+            <div id="one" class="tabcontent">
+                <div id="newElementId"></div>
+                <? var ss_activity = SpreadsheetApp.openById("1kvQqq0VdP2LwZTmytwyMAVJhPlcVGXkKmwbdgEp5NUo"); ?>
+                 <? var activity_sheet = ss_activity.getSheetByName("Summary").getDataRange().getDisplayValues(); ?>
+                 <? for (var i = 1; i < activity_sheet.length; i++) { ?>
+                  <? var get_link = activity_sheet[i][2] ?>
+                  <? var get_method = activity_sheet[i][1] ?>
+                      <br/><ul id='<?=get_link?>'><li><a href='#' name='den' id='<?=get_link?>' onclick='collect(); return false'> <?= get_link ?> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em><?= get_method ?></em>&nbsp;&nbsp;&nbsp;<a href="#" id="<?=get_link ?>" onclick="document.getElementById('res').innerHTML = <?=get_link ?>; delete_activity(); return false"><em>Delete</em></a></ul>
+                 <? } ?>
+              
+           <script>
+            function createNewElement() { 
+                // First create a DIV element.
+                var get_link = document.getElementById('link').value;
+                var txtNewInputBox = document.createElement('div');
+                // Then add the content (a new input box) of the element.
+                txtNewInputBox.innerHTML = "<br/><ul id='" + get_link + "'><li><a href='#' name='den' id='" + get_link + "' onclick='collect(); return false'>" + get_link + "</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Newly added Activity..reload the page for the deletion...</i></ul>";
+                // Finally put it where it is supposed to appear.
+                var answer = window.confirm("Save Activity?");
+                if (answer === true) {
+                 document.getElementById("newElementId").appendChild(txtNewInputBox);
+                 var method = document.getElementById("get_choice").value;
+                 var username_a = document.getElementById("username_header").value;
+                 var password_a = document.getElementById("password_header").value;
+                 var bearer_token = document.getElementById("token").value;
+                 var header_ = document.getElementById("http_header").value;
+                 var body_ = document.getElementById("p_body").value;
+                 google.script.run.activity_code(method, get_link,username_a, password_a, bearer_token,header_,body_);
+                }
+                else {
+                 //alert("bulaga");
+                }
+                
+            }
+           
+            function collect(){
+                window.onclick = e => {
+                    var target_clicked = e.target.innerText;
+                    if (target_clicked.includes('http')){
+                       google.script.run.withSuccessHandler(activity_matching_handler).activity_code_matching(target_clicked);
+     
+                    }
+                }
+            }
+            //var activity_data = { method: method_d , link: link_d, user: username_d, pass: password_d, token: token_d, header: header_d };
+            function activity_matching_handler(activity_data){
+             document.getElementById("link").value = activity_data.link;
+             document.getElementById("get_choice").value = activity_data.method;
+             document.getElementById("username_header").value = activity_data.user;
+             document.getElementById("password_header").value = activity_data.pass;
+             document.getElementById("token").value = activity_data.token;
+             document.getElementById("http_header").value = activity_data.header;
+             document.getElementById("p_body").value = activity_data.body;
+            }
+            
+            function delete_activity(){
+             var activity_e_id = document.getElementById('res').innerHTML;
+             document.getElementById(activity_e_id).remove();
+             google.script.run.deleteActivity_code(activity_e_id);
+            }
+            </script>
+               
+        </div>
+    
+            <div id="two" class="tabcontent">
+            <h4>Authorization:</h4>
+            <input type="text" id="username_header" placeholder="Username"/><br/><br/>
+            <input type="text" id="password_header" placeholder="Password"/><br/><br/>
+            <h4>Bearer Token:</h4>
+            <textarea id="token" placeholder="Token" rows="5" cols="50"></textarea>
+            </div>
+    
+            <div id="three" class="tabcontent">
+            <h4>HTTP Header:</h4>
+            <textarea id="http_header" placeholder="ex. Agent: 'JSONAPI'" rows="14" cols="100"></textarea>
+            </div>
+    
+            <div id="four" class="tabcontent">
+              
+            <h4>Body:</h4>
+            <textarea id="p_body" placeholder="Source" rows="14" cols="100"></textarea>
+            </div>
+    
+            <script>
+            function openPage(pageName,elmnt,color) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+            }
+            document.getElementById(pageName).style.display = "block";
+            elmnt.style.backgroundColor = color;
+            }
+    
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+            </script>
+        </div>
+        <div class="column" style="background-color:#fff;">
+            <div class="separator"></div>
+            <textarea id="API_data" placeholder="Response" rows="23" cols="100"></textarea>
+        </div>
+        </div>
+        <p id='res'hidden></p>
+    </body>
+    </html>

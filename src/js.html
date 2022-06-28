@@ -5,14 +5,14 @@
     })()
     
     function getDataonSuccess(data){
-      let loginLink = "https://script.google.com/macros/s/AKfycbytBpZpcTNk-hUTPyQIajSN6TW5zZbBydpeL1H7leIc/exec?page=login"
+      let loginLink = "https://script.google.com/macros/s/AKfycbzImZzc0ae0MUNSaEtC9RJ7m1ouoCjSxZ7eb6CmPFEVEkgJCap4/exec?page=login"
       if(data.message === "active"){
       document.querySelector("[data-login-username-header]").innerHTML = `Welcome ${data.user}`;
       document.querySelector("[data-logout-self]").href = loginLink;
       } else {
       alert("You need to login to access this page.");
-       //location.href = loginLink;
-       window.open(loginLink, "_self");
+       window.location.href = loginLink;
+       //window.open(loginLink, "_self");
       }
     }
     

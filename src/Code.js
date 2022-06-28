@@ -78,7 +78,7 @@ function get_command_code(id_link, token_link, header_link, username_link, passw
 
 function post_command_code(id_link, token_link, header_link, username_link, password_link, body){
   var token = token_link;
-  var url = id_link;//"https://script.google.com/macros/s/AKfycbzqpbLcf4jg1it9rGlukOgoOwJPtcKCxoO69B1Oob8yqAJOQo4y/exec";
+  var url = id_link;
   var header_data = header_link;
   var username = username_link;
   var password = password_link;
@@ -87,15 +87,13 @@ function post_command_code(id_link, token_link, header_link, username_link, pass
   var headers = {
     "Authorization": 'Bearer ' + token,
     header_data
-    //"Content-Type": "application/json",
-    //"Accept": "application/json"
   };
   
   var options = {
     "method": "POST",
     "Content-Type": "application/json",
     "headers": headers,
-    "payload": JSON.stringify(content)
+    "payload": content
   };
   
   var data = UrlFetchApp.fetch(url, options); 
@@ -176,7 +174,6 @@ function putDataInCache(username){
 function getDataInCache(){
  let scriptCache = CacheService.getScriptCache();
  let message;
- //scriptCache.remove("go");
  let cache = scriptCache.get("active");
  cache? message = "active": message = "inactive"
  let data = { message : message, user: cache };

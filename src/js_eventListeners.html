@@ -1,0 +1,35 @@
+<script>
+    //Eventlistener
+    window.onload=function(){
+      let sendButton = document.querySelector("[data-send-button]");
+      sendButton.addEventListener("click", () => {
+      //invoke 2 functions
+      get_command();
+      createNewElement()
+      });
+      
+      let logoutSelf = document.querySelector("[data-logout-self]");
+      logoutSelf.addEventListener("click", () => {
+      //invoke model deleteDataInCache() to remove cache of active users
+      google.script.run.deleteDataInCache();
+      });
+     }
+     
+     function openPage(pageName,elmnt,color) {
+       var i, tabcontent, tablinks;
+       tabcontent = document.getElementsByClassName("tabcontent");
+       for (i = 0; i < tabcontent.length; i++) {
+              tabcontent[i].style.display = "none";
+       }
+       tablinks = document.getElementsByClassName("tablink");
+       for (i = 0; i < tablinks.length; i++) {
+       tablinks[i].style.backgroundColor = "";
+        }
+       document.getElementById(pageName).style.display = "block";
+       elmnt.style.backgroundColor = color;
+     }
+        
+      // Get the element with id="defaultOpen" and click on it
+      document.getElementById("defaultOpen").click();
+      
+    </script>

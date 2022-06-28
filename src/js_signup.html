@@ -1,0 +1,36 @@
+<script>
+    let signUpButton = document.querySelector("[data-signup-submit]")
+          signUpButton.addEventListener("click", () => {
+          //invoke signupCredential function
+           signupCredential();
+         }); 
+    function signupCredential(){
+      let name = document.querySelector("[data-signup-name]").value;
+      let email = document.querySelector("[data-signup-email]").value;
+      let username = document.querySelector("[data-signup-username]").value;
+      let password = document.querySelector("[data-signup-password]").value;
+      let confirmPassword = document.querySelector("[data-signup-confirm-password]").value;
+      
+      //do validation
+      if (name == '' || email == '' || username == '' || password == '') {
+        document.querySelector("[data-signup-message]").innerHTML = "Don't leave an empty field.";
+        return;
+      } 	
+      //validate email field if @ exists in it
+      if (email.indexOf("@") == -1 || email.length < 15) {
+        document.querySelector("[data-signup-message]").innerHTML = "Make sure you have a valid email.";
+        return;
+      }
+      //validate password if match
+      if (password !== confirmPassword){
+        document.querySelector("[data-signup-message]").innerHTML = "Password do not match.";
+        return;
+      }
+      
+      google.script.run.withSuccessHandler(signupCredentialonSuccess).signupCredentialCode(username, password, name, email);    
+    }
+    
+    function signupCredentialonSuccess(data){
+      document.querySelector("[data-signup-message]").innerHTML = data.message;
+    }
+    </script>

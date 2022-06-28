@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <?!= include ("css") ?>
+    <?!= include ("js") ?>
+</head>
+<body class="body_">
+    <div data-login-username-header></div>
+    <a target="_top" data-logout-self>Logout</a>
+    <h2>JSONAPI Access Project</h2>
+    <p><em>A Restful APIs tool</em></p>
+    
+    <div class="row">
+    <div class="column" style="background-color:#ffff;">
+       <select name="get_choice" id="get_choice" onclick="">
+            <option value="GET" selected>GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+        </select>
+        <input type="text" class="input-main-text" id="link" placeholder="Link"/>
+        <button class="b b1" data-send-button>SEND</button>
+        <br/><br/>
+        <button class="tablink" onclick="openPage('one', this, 'green')"  id="defaultOpen">Activity</button>
+        <button class="tablink" onclick="openPage('two', this, 'green')">Auth</button>
+        <button class="tablink" onclick="openPage('three', this, 'green')" >Headers</button>
+        <button class="tablink" onclick="openPage('four', this, 'green')">Body</button>
+        <div id="one" class="tabcontent">
+            <div id="newElementId"></div>
+             <? let globalcacheService = CacheService.getScriptCache();  ?><? let globalcache = globalcacheService.get("active"); ?>
+            <? let ss_activity = SpreadsheetApp.openById("1kvQqq0VdP2LwZTmytwyMAVJhPlcVGXkKmwbdgEp5NUo"); ?>
+             <? let activity_sheet = ss_activity.getSheetByName("Summary").getDataRange().getDisplayValues(); ?>
+             <? for (let i = 1; i < activity_sheet.length; i++) { ?>
+              <? let get_link = activity_sheet[i][2] ?>
+              <? let get_method = activity_sheet[i][1] ?>
+              <? let get_by = activity_sheet[i][8] ?>
+                <? if (get_by === globalcache){ ?>
+                  <br/><ul id='<?=get_link?>'><li><a href='#' name='den' id='<?=get_link?>' onclick='collect(); return false'> <?= get_link ?> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em><?= get_method ?></em>&nbsp;&nbsp;&nbsp;<a href="#" id="<?=get_link ?>" onclick="document.getElementById('res').innerHTML = <?=get_link ?>; delete_activity(); return false"><em>Delete</em></a></ul>
+               <? } ?>
+             <? } ?>
+        </div>
+
+        <div id="two" class="tabcontent">
+        <h4>Authorization:</h4>
+        <input type="text" class="input-main-text" id="username_header" placeholder="Username"/><br/><br/>
+        <input type="text" class="input-main-text" id="password_header" placeholder="Password"/><br/><br/>
+        <h4>Bearer Token:</h4>
+        <textarea id="token" placeholder="Token" rows="5" cols="50"></textarea>
+        </div>
+
+        <div id="three" class="tabcontent">
+        <h4>HTTP Header:</h4>
+        <textarea id="http_header" placeholder="ex. Agent: 'JSONAPI'" rows="14" cols="100"></textarea>
+        </div>
+
+        <div id="four" class="tabcontent">
+          
+        <h4>Body:</h4>
+        <textarea id="p_body" placeholder="Source" rows="14" cols="100"></textarea>
+        </div>
+    </div>
+    <div class="column" style="background-color:#fff;">
+        <div class="separator"></div>
+        <textarea id="API_data" placeholder="Response" rows="23" cols="100"></textarea>
+    </div>
+    </div>
+    <p id='res'hidden></p>
+    
+    <?!= include ("js_eventListeners") ?>
+</body>
+</html>

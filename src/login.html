@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+   <!-- Google Fonts -->
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+   <!-- Bootstrap core CSS -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+   <!-- Material Design Bootstrap -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <title>Login</title>   
+    <?!= include("css") ?>
+    <?!= include("js_login") ?>
+</head>
+<body>  
+    <div class="login-box">
+        <h2 class="login-header">Log in</h2>
+        <div class="form-outline mb-4">
+          <p><input type="text" id="email" class="form-control" placeholder="Username" data-login-username/></p>
+          <p><input type="password" id="password" class="form-control" placeholder="Password" data-login-password/></p>
+        </div>
+          <input type="submit" class="btn btn-primary" value="Log in" id="submit"/>
+           <p class="gotologin">
+                <a href="https://script.google.com/macros/s/AKfycbytBpZpcTNk-hUTPyQIajSN6TW5zZbBydpeL1H7leIc/dev?page=signup">Go to Signup</a>
+           </p>
+        <div data-login-message></div>
+    </div>
+<body>  
+</html>  
+

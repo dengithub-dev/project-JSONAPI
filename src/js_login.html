@@ -1,0 +1,41 @@
+<script>
+
+    window.onload=function(){
+    let signInButton = document.getElementById('submit')
+          signInButton.addEventListener("click", (e) => {
+          //invoke getCredential function
+           getCredential();
+          
+         })
+    }
+    
+    function getCredential(){
+      let username = document.querySelector("[data-login-username]").value;
+      let password = document.querySelector("[data-login-password]").value;
+      google.script.run.withSuccessHandler(getCredentialonSuccess).getCredentialCode(username, password);    
+    }
+    
+    function getCredentialonSuccess(data){
+      let username = document.querySelector("[data-login-username]").value;
+      let password = document.querySelector("[data-login-password]").value;
+      let message = document.querySelector("[data-login-message]");
+      let mainLink = "https://script.google.com/macros/s/AKfycbytBpZpcTNk-hUTPyQIajSN6TW5zZbBydpeL1H7leIc/exec?page=main"
+      console.log(data.message);
+      try {
+              if(data.message === "success"){
+              //put cache if successful login 
+              google.script.run.putDataInCache(username);
+              //location.href= mainLink;
+              window.open(mainLink, "_top");
+              } else {
+               message.innerHTML = "Error logging in. Please try again..."
+              }
+             }
+      catch (e) {
+              message.innerHTML = e;
+             }
+    }
+    
+    </script>
+    
+    

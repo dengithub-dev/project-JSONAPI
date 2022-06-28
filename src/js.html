@@ -1,0 +1,137 @@
+<script>
+    //Immediate Invoked Function Expression
+    (() => {
+        google.script.run.withSuccessHandler(getDataonSuccess).getDataInCache();
+    })()
+    
+    function getDataonSuccess(data){
+      let loginLink = "https://script.google.com/macros/s/AKfycbytBpZpcTNk-hUTPyQIajSN6TW5zZbBydpeL1H7leIc/exec?page=login"
+      if(data.message === "active"){
+      document.querySelector("[data-login-username-header]").innerHTML = `Welcome ${data.user}`;
+      document.querySelector("[data-logout-self]").href = loginLink;
+      } else {
+      alert("You need to login to access this page.");
+       //location.href = loginLink;
+       window.open(loginLink, "_self");
+      }
+    }
+    
+    function get_command(){
+     var api_choice = document.getElementById("get_choice").value;
+     var token_link = document.getElementById("token").value;
+     var id_link = document.getElementById("link").value;
+     var header_link = document.getElementById("http_header").value;
+     var username_link = document.getElementById("username_header").value;
+     var password_link = document.getElementById("password_header").value;
+     var body = document.getElementById("p_body").value;
+     if (id_link === "") {
+       alert("Empty Id/link. Please try again.");
+       return;
+     }
+     if (api_choice === "GET"){
+      google.script.run.withFailureHandler(get_command_onFailure).withSuccessHandler(get_command_handler).get_command_code(id_link, token_link, header_link, username_link, password_link);
+     } 
+     else if (api_choice === "POST"){
+      google.script.run.withFailureHandler(post_command_onFailure).withSuccessHandler(post_command_handler).post_command_code(id_link, token_link, header_link, username_link, password_link,body);
+     
+     }
+     else if (api_choice === "DELETE"){
+      google.script.run.withFailureHandler(delete_command_onFailure).withSuccessHandler(delete_command_handler).delete_command_code(id_link, token_link, header_link, username_link, password_link,body);
+     
+     }
+     else {
+      alert("Method not available yet...");
+     }
+    }
+    
+    function delete_command_handler(get_data){
+     try {
+       document.getElementById("API_data").value = get_data;
+     }
+     catch (e) {
+      document.getElementById("API_data").value = e;  
+     }
+    }
+    
+    function delete_command_onFailure() {
+    document.getElementById("API_data").value = "{\n Invalid Request \n}";
+    }
+    
+    function post_command_handler(get_data){
+     try {
+       document.getElementById("API_data").value = get_data;
+     }
+     catch (e) {
+      document.getElementById("API_data").value = e;  
+     }
+    }
+    
+    function post_command_onFailure() {
+    document.getElementById("API_data").value = "{\n Invalid Request \n}";
+    }
+    
+    function get_command_handler(get_data){
+     try {
+       document.getElementById("API_data").value = get_data;
+     }
+     catch (e) {
+      document.getElementById("API_data").value = e;  
+     }
+    }
+    
+    function get_command_onFailure() {
+    document.getElementById("API_data").value = "{\n Invalid Request \n}";
+    }
+    
+    function createNewElement() { 
+            // First create a DIV element.
+            var get_link = document.getElementById('link').value;
+            if (get_link === "") return;
+            var txtNewInputBox = document.createElement('div');
+            // Then add the content (a new input box) of the element.
+            txtNewInputBox.innerHTML = "<br/><ul id='" + get_link + "'><li><a href='#' name='den' id='" + get_link + "' onclick='collect(); return false'>" + get_link + "</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Newly added Activity..reload the page for the deletion...</i></ul>";
+            // Finally put it where it is supposed to appear.
+            var answer = window.confirm("Save Activity?");
+            if (answer === true) {
+             document.getElementById("newElementId").appendChild(txtNewInputBox);
+             var method = document.getElementById("get_choice").value;
+             var username_a = document.getElementById("username_header").value;
+             var password_a = document.getElementById("password_header").value;
+             var bearer_token = document.getElementById("token").value;
+             var header_ = document.getElementById("http_header").value;
+             var body_ = document.getElementById("p_body").value;
+             google.script.run.activity_code(method, get_link,username_a, password_a, bearer_token,header_,body_);
+            }
+            else {
+             //alert("bulaga");
+            }
+            
+        }
+       
+        function collect(){
+            window.onclick = e => {
+                var target_clicked = e.target.innerText;
+                if (target_clicked.includes('http')){
+                   google.script.run.withSuccessHandler(activity_matching_handler).activity_code_matching(target_clicked);
+ 
+                }
+            }
+        }
+        
+        //var activity_data = { method: method_d , link: link_d, user: username_d, pass: password_d, token: token_d, header: header_d };
+        function activity_matching_handler(activity_data){
+         document.getElementById("link").value = activity_data.link;
+         document.getElementById("get_choice").value = activity_data.method;
+         document.getElementById("username_header").value = activity_data.user;
+         document.getElementById("password_header").value = activity_data.pass;
+         document.getElementById("token").value = activity_data.token;
+         document.getElementById("http_header").value = activity_data.header;
+         document.getElementById("p_body").value = activity_data.body;
+        }
+        
+        function delete_activity(){
+         var activity_e_id = document.getElementById('res').innerHTML;
+         document.getElementById(activity_e_id).remove();
+         google.script.run.deleteActivity_code(activity_e_id);
+        }
+    </script>

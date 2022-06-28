@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+   <!-- Google Fonts -->
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+   <!-- Bootstrap core CSS -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+   <!-- Material Design Bootstrap -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <title>Signup</title>   
+    <?!= include("css") ?>
+</head>
+<body>  
+    <div class="signup-box">
+        <h2 class="login-header">Sign up</h2>
+        <div class="form-outline mb-4">
+          <p>
+              <input type="text" class="form-control" placeholder="Name" data-signup-name/>
+          </p>
+          <p>
+              <input type="email" class="form-control" placeholder="Email" data-signup-email/>
+          </p>
+          <p>
+              <input type="text" class="form-control" placeholder="Username" data-signup-username/>
+          </p>
+          <p>
+              <input type="password" class="form-control" placeholder="Password" data-signup-password/>
+          </p>
+          <p>
+              <input type="password" class="form-control" placeholder="Confirm Password" data-signup-confirm-password/>
+          </p>
+        </div>
+         <input type="submit" class="btn btn-primary" value="Sign up" id="submit" data-signup-submit/>
+         <p class="gotologin">
+            <a href="https://script.google.com/macros/s/AKfycbytBpZpcTNk-hUTPyQIajSN6TW5zZbBydpeL1H7leIc/dev?page=login">Go to Login</a>
+         </p>
+    <div data-signup-message></div>
+    
+    </div>
+    <?!= include ("js_signup") ?>
+<body>  
+</html>  
+
